@@ -1,19 +1,32 @@
-<h1>{{title}}</h1>
+<h1 class="title animated fadeInDown">{{title}}</h1>
 
-<ul>
-  <li *ngFor="let todo of todos">{{todo.id}} - {{todo.title}} | 
-    <button *ngIf="!todo.done" (click)="markAsDone(todo)">CONCLUIR</button>|
+<ul class="animated flipInX" *ngIf="mode=='list'">
+  <li *ngFor="let todo of todos">{{todo.title}} | 
+    <button *ngIf="!todo.done" (click)="markAsDone(todo)">CONCLUIR</button>
     <button *ngIf="todo.done" (click)="markAsUndone(todo)">DESFAZER</button>
     <button (click)="remove(todo)">REMOVER</button>
 </li>   
 </ul>
 
-<form [formGroup]="form">
-  <fieldset>
-    <input type="text" placeholder="Task title" formControlName="title">
-    <span *ngIf="!form.pristine && form.controls.title.value.length<3">Title must be greather than or equals to 3</span>
-    <span *ngIf="!form.pristine && form.controls.title.value.length>50">Title must be less than or equals to 50</span>
-    <span *ngIf="!form.pristine && form.controls.title.invalid">Invalid title</span>
-    <button [disabled]="form.invalid" (click)="add()">SAVE</button>
-  </fieldset>
-</form>
+<div id="modal" *ngIf="mode=='add'" class="animated flipInX">
+  <form [formGroup]="form">
+    <fieldset>
+      <input type="text" placeholder="Task title" formControlName="title">
+      <small class="danger" *ngIf="form.controls.title.invalid && !form.controls.title.pristine" >
+        Este campo deve conter entre 3 e 50 caracteres<br>
+      </small>
+    </fieldset>
+  </form>
+</div>
+
+<button class="button" [disabled]="form.invalid" (click)="add()" *ngIf="mode=='add'">
+  <i class="fas fa-save"></i>
+</button>
+
+<button class="add-button animated fadeInUp button" (click)="changeMode('add')" *ngIf="mode=='list'">
+<i class="fas fa-plus-circle"></i>
+</button>
+
+<button class="add-button animated fadeInUp button" (click)="changeMode('list')" *ngIf="mode=='add'">
+<i class="fas fa-times"></i>
+</button>
