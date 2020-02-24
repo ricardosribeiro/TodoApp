@@ -1,10 +1,11 @@
 <h1 class="title animated fadeInDown">{{title}}</h1>
 
 <ul class="animated flipInX" *ngIf="mode=='list'">
+  <p class="text" *ngIf="todos.length==0"><small>Você não tem nenhuma tarefa!</small></p>
   <li *ngFor="let todo of todos">{{todo.title}} | 
-    <button *ngIf="!todo.done" (click)="markAsDone(todo)">CONCLUIR</button>
-    <button *ngIf="todo.done" (click)="markAsUndone(todo)">DESFAZER</button>
-    <button (click)="remove(todo)">REMOVER</button>
+    <button *ngIf="!todo.done" (click)="markAsDone(todo)"><i class="far fa-check-circle"></i></button>
+    <button *ngIf="todo.done" (click)="markAsUndone(todo)"><i class="fas fa-check-circle"></i></button>
+    <button (click)="remove(todo)"><i class="fas fa-trash-alt"></i></button>
 </li>   
 </ul>
 
@@ -14,7 +15,7 @@
       <input type="text" placeholder="Task title" formControlName="title">
       <small class="danger" *ngIf="form.controls.title.invalid && !form.controls.title.pristine" >
         Este campo deve conter entre 3 e 50 caracteres<br>
-      </small>
+      </small>   
     </fieldset>
   </form>
 </div>
@@ -24,8 +25,8 @@
 </button>
 
 <button class="add-button animated fadeInUp button" (click)="changeMode('add')" *ngIf="mode=='list'">
-<i class="fas fa-plus-circle"></i>
-</button>
+  <i class="fas fa-plus-circle"></i>
+  </button>
 
 <button class="add-button animated fadeInUp button" (click)="changeMode('list')" *ngIf="mode=='add'">
 <i class="fas fa-times"></i>
